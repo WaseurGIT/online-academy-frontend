@@ -10,6 +10,7 @@ import About from "./components/About/About.jsx";
 import Contact from "./components/Contact/Contact.jsx";
 import Login from "./auth/Login/Login.jsx";
 import Register from "./auth/Register/Register.jsx";
+import { AuthContext } from "./context/AuthProvider.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,19 +35,21 @@ const router = createBrowserRouter([
         element: <Contact></Contact>,
       },
       {
-        path: '/login',
-        element:<Login></Login>
+        path: "/login",
+        element: <Login></Login>,
       },
       {
-        path: '/register',
-        element: <Register></Register>
-      }
+        path: "/register",
+        element: <Register></Register>,
+      },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthContext>
+      <RouterProvider router={router} />
+    </AuthContext>
   </StrictMode>
 );
