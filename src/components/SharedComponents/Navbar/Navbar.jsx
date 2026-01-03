@@ -44,7 +44,7 @@ const Navbar = () => {
           <div className="hidden md:block">
             <Link
               to="/login"
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+              className=" px-5 py-2 rounded-lg hover:bg-blue-700 hover:text-white transition"
             >
               Login
             </Link>
