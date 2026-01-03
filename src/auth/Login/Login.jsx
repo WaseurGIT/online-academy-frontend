@@ -1,21 +1,65 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { loginUser, googleLoginUser } = useContext(AuthContext);
   const [showPass, setShowPass] = useState(false);
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // your auth logic
-    alert(`Email: ${email}\nPassword: ${password}`);
+
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      const res = await loginUser(email, password);
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: `Welcome ${res.user.displayName}`,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      form.reset();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.message,
+      });
+    }
   };
 
-  const handleGoogleLogin = () => {
-    alert("Google login clicked");
+  const handleGoogleLogin = async () => {
+    try {
+      const res = await googleLoginUser();
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: `Welcome ${res.user.displayName}`,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.message,
+      });
+    }
   };
 
   return (
@@ -48,10 +92,9 @@ const Login = () => {
             <div className="relative">
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
                 required
-                placeholder=" "
+                placeholder="ana@gmail.com"
                 className="peer w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
               />
               <label className="absolute left-4 -top-2 text-sm text-indigo-600 bg-white px-1 peer-focus:top-0 peer-focus:text-xs transition-all">
@@ -63,10 +106,9 @@ const Login = () => {
             <div className="relative">
               <input
                 type={showPass ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
                 required
-                placeholder=" "
+                placeholder="******"
                 className="peer w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
               />
               <label className="absolute left-4 -top-2 text-sm text-indigo-600 bg-white px-1 peer-focus:top-0 peer-focus:text-xs transition-all">
