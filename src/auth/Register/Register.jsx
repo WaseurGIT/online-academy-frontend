@@ -1,34 +1,71 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from "../../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
+import Swal from "sweetalert2";
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    photoURL: "",
-    email: "",
-    password: "",
-  });
+  const { createUser } = useContext(AuthContext);
 
   const [showPass, setShowPass] = useState(false);
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    console.log("Registered:", formData);
-    alert("Registered Successfully 🚀");
-    // Add your signup logic here (Firebase / Auth API / backend)
+    const form = e.target;
+    const name = form.name.value;
+    const photoURL = form.photoURL.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    // Validations
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setError("Password must contain one special character.");
+      return;
+    } else {
+      setError("");
+    }
+
+    try {
+      const result = await createUser(email, password);
+      const user = result.user;
+
+      // Update Firebase profile
+      await updateProfile(user, {
+        displayName: name,
+        photoURL: photoURL,
+      });
+
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Account Created Successfully",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      form.reset();
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: err.message,
+      });
+    }
   };
 
-  const handleGoogleSignup = () => {
-    alert("Google signup clicked");
-  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-100 px-4 relative overflow-hidden py-20">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-100 px-4 relative overflow-hidden pt-20">
       {/* Background decorative blurred circles */}
       <div className="absolute -top-40 -left-40 w-72 h-72 bg-purple-400/40 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute -bottom-40 -right-40 w-72 h-72 bg-blue-500/40 rounded-full blur-3xl animate-pulse"></div>
@@ -61,10 +98,8 @@ const Register = () => {
               <input
                 type="text"
                 name="name"
-                value={formData.name}
-                onChange={handleChange}
                 required
-                placeholder=" "
+                placeholder="Ana de Armas"
                 className="peer w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
               />
               <label className="absolute left-4 -top-2 text-sm text-indigo-600 bg-white px-1 peer-focus:top-0 peer-focus:text-xs transition">
@@ -77,9 +112,7 @@ const Register = () => {
               <input
                 type="text"
                 name="photoURL"
-                value={formData.photoURL}
-                onChange={handleChange}
-                placeholder=" "
+                placeholder="profile.png"
                 className="peer w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
               />
               <label className="absolute left-4 -top-2 text-sm text-indigo-600 bg-white px-1 peer-focus:top-0 peer-focus:text-xs transition">
@@ -92,10 +125,8 @@ const Register = () => {
               <input
                 type="email"
                 name="email"
-                value={formData.email}
-                onChange={handleChange}
                 required
-                placeholder=" "
+                placeholder="ana@gmail.com"
                 className="peer w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
               />
               <label className="absolute left-4 -top-2 text-sm text-indigo-600 bg-white px-1 peer-focus:top-0 peer-focus:text-xs transition">
@@ -108,10 +139,8 @@ const Register = () => {
               <input
                 type={showPass ? "text" : "password"}
                 name="password"
-                value={formData.password}
-                onChange={handleChange}
                 required
-                placeholder=" "
+                placeholder="******"
                 className="peer w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
               />
               <label className="absolute left-4 -top-2 text-sm text-indigo-600 bg-white px-1 peer-focus:top-0 peer-focus:text-xs transition">
@@ -130,6 +159,10 @@ const Register = () => {
               </span>
             </div>
 
+            <div className="flex justify-center">
+              <h1 className="text-md text-red-500">{error}</h1>
+            </div>
+
             {/* Signup Button */}
             <button
               type="submit"
@@ -138,22 +171,6 @@ const Register = () => {
               Sign Up
             </button>
           </form>
-
-          {/* OR Divider */}
-          <div className="flex items-center my-6">
-            <div className="flex-grow h-px bg-gray-300"></div>
-            <span className="mx-3 text-gray-500">OR</span>
-            <div className="flex-grow h-px bg-gray-300"></div>
-          </div>
-
-          {/* Social Signup */}
-          <button
-            onClick={handleGoogleSignup}
-            className="w-full flex items-center justify-center py-3 border rounded-xl text-gray-700 hover:bg-gray-100 transition"
-          >
-            <FcGoogle size={24} className="mr-2" />
-            Continue with Google
-          </button>
 
           {/* Already Have Account */}
           <p className="mt-6 text-center text-gray-600 text-sm">
