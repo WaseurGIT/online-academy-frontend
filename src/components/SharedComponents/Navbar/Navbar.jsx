@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import './Navbar.css'
+import "./Navbar.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +20,10 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Left - Logo */}
-          <Link to="/" className="text-2xl font-bold text-blue-600 pacifico-regular">
+          <Link
+            to="/"
+            className="text-2xl font-bold text-blue-600 pacifico-regular"
+          >
             EduLogo
           </Link>
 
