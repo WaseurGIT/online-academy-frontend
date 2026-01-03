@@ -155,7 +155,7 @@ const Login = () => {
           {/* Social Login */}
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center py-3 border rounded-xl text-gray-700 hover:bg-gray-100 transition"
+            className="w-full flex items-center justify-center py-3 border rounded-xl text-gray-700 hover:bg-gray-100 transition cursor-pointer"
           >
             <FcGoogle size={24} className="mr-2" /> Continue with Google
           </button>
