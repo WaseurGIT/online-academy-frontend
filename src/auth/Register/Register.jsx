@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -41,6 +42,15 @@ const Register = () => {
         photoURL: photoURL,
       });
 
+      const userData = {
+        name: name,
+        photoURL: photoURL,
+        email: email,
+        password: password,
+      };
+
+      await axios.post("http://localhost:5000/users", userData);
+
       Swal.fire({
         toast: true,
         position: "top-end",
@@ -62,7 +72,6 @@ const Register = () => {
       });
     }
   };
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-100 px-4 relative overflow-hidden pt-20">

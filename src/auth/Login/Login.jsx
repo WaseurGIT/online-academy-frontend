@@ -4,6 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Login = () => {
   const { loginUser, googleLoginUser } = useContext(AuthContext);
@@ -19,6 +20,15 @@ const Login = () => {
 
     try {
       const res = await loginUser(email, password);
+
+      const userData = {
+        email: res.user.email,
+        password: res.user.password,
+        uid: res.user.uid,
+      };
+
+      await axios.post("http://localhost:5000/users", userData);
+
       Swal.fire({
         toast: true,
         position: "top-end",
@@ -43,6 +53,15 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       const res = await googleLoginUser();
+
+      const userData = {
+        email: res.user.email,
+        password: res.user.password,
+        uid: res.user.uid,
+      };
+
+      await axios.post("http://localhost:5000/users", userData);
+
       Swal.fire({
         toast: true,
         position: "top-end",
