@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Logo & Description */}
           <div>
-            <h2 className="text-3xl font-extrabold text-white tracking-wide">
+            <h2 className="text-3xl font-extrabold text-white tracking-wide pacifico-regular">
               EduLogo
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-gray-400">
