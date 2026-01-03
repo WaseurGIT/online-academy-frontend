@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,6 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-100 px-4 pt-20">
       <div className="grid md:grid-cols-2 gap-10 max-w-5xl w-full">
-
         {/* Illustrative side */}
         <div className="hidden md:flex flex-col items-center justify-center">
           <img
@@ -32,7 +32,8 @@ const Login = () => {
             Welcome Back!
           </h2>
           <p className="text-gray-600 text-center mt-2">
-            Log in to access your courses, manage progress, and continue learning.
+            Log in to access your courses, manage progress, and continue
+            learning.
           </p>
         </div>
 
@@ -85,7 +86,10 @@ const Login = () => {
 
             {/* Forgot Password */}
             <div className="text-right text-sm">
-              <a href="/forgot-password" className="text-indigo-600 hover:underline">
+              <a
+                href="/forgot-password"
+                className="text-indigo-600 hover:underline"
+              >
                 Forgot Password?
               </a>
             </div>
@@ -117,9 +121,12 @@ const Login = () => {
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-gray-600 text-sm">
             Don’t have an account?{" "}
-            <a href="/signup" className="text-indigo-600 font-semibold hover:underline">
+            <Link
+              to="/register"
+              className="text-indigo-600 font-semibold hover:underline"
+            >
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
