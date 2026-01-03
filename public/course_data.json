@@ -39,6 +39,6 @@
     "course_name": "JavaScript Mastery",
     "course_image": "/course_img/course_6.png",
     "course_price": 34.99,
-    "stacks": ["JavaScript", "ES6+", "DOM", "Async Programming"]
+    "stacks": ["JavaScript", "ES6+", "DOM"]
   }
 ]
