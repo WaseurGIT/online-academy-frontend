@@ -1,8 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthProvider";
+import Swal from "sweetalert2";
 
 const CourseDetails = () => {
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const [course, setCourse] = useState(null);
 
@@ -25,6 +28,51 @@ const CourseDetails = () => {
     );
   }
 
+  const handleEnroll = async () => {
+    if (!user?.email) {
+      alert("Please login first!");
+      return;
+    }
+
+    console.log("Enrolling with:", {
+      userEmail: user.email,
+      courseId: course.course_id,
+      courseName: course.course_name,
+    });
+
+    try {
+      const enrollData = {
+        userEmail: user.email,
+        courseId: course.course_id,
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/enrollments",
+        enrollData
+      );
+      console.log("Enrollment response:", response.data);
+
+      Swal.fire({
+        title: "Enrolled Successfully",
+        icon: "success",
+        draggable: true,
+      });
+
+      // Refresh courses after enrolling
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.error("Enrollment error:", error);
+      console.error("Error details:", error.response?.data);
+
+      if (error.response?.status === 409) {
+        alert("You are already enrolled in this course.");
+      } else {
+        alert("Enroll failed! Check console for details.");
+      }
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50 py-26 px-4">
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
@@ -74,7 +122,10 @@ const CourseDetails = () => {
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition">
+            <button
+              onClick={handleEnroll}
+              className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition cursor-pointer"
+            >
               Enroll Now
             </button>
 

@@ -1,34 +1,49 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
+import { Link, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 px-6 py-26">
-      <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-8">
-        <h1 className="text-3xl font-bold mb-4">
-          Welcome, {user?.displayName || user?.email}
-        </h1>
-
-        <p className="text-gray-600 mb-6">
-          Here’s your personal dashboard — track your activity below:
-        </p>
-
-        {/* Example stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-          <div className="bg-blue-50 p-4 rounded-lg shadow">
-            <h2 className="font-semibold text-xl">Courses Completed</h2>
-            <p className="text-3xl font-bold text-blue-700">3</p>
-          </div>
-          <div className="bg-green-50 p-4 rounded-lg shadow">
-            <h2 className="font-semibold text-xl">Assignments Submitted</h2>
-            <p className="text-3xl font-bold text-green-700">7</p>
-          </div>
+    <div className="min-h-screen flex bg-gray-50 pt-16">
+      {/* Sidebar */}
+      <aside
+        className={`fixed md:static z-40 top-0 left-0 h-screen w-64 bg-white shadow-lg transform
+        ${open ? "translate-x-0" : "-translate-x-full"}
+        md:translate-x-0 transition-transform duration-300`}
+      >
+        <div className="p-6 border-b text-center">
+          <img
+            src={user?.photoURL}
+            alt="profile"
+            className="w-20 h-20 rounded-full mx-auto"
+          />
+          <h1 className="text-md font-bold mt-2">
+            <span className="text-orange-400">
+              {user?.displayName || user?.email?.split("@")[0]}
+            </span>
+          </h1>
         </div>
 
-        {/* Add more as needed */}
-      </div>
+        <nav className="p-4 space-y-3">
+          <Link to="/dashboard" className="block px-4 py-2 rounded-lg hover:bg-blue-50">
+            Home
+          </Link>
+          <Link
+            to="/dashboard/myCourses"
+            className="block px-4 py-2 rounded-lg hover:bg-blue-50"
+          >
+            My Courses
+          </Link>
+        </nav>
+      </aside>
+
+      {/* Main content */}
+      <main className="flex-1 p-6 md:p-10">
+        <Outlet />   {/* 🔥 THIS WAS MISSING */}
+      </main>
     </div>
   );
 };
