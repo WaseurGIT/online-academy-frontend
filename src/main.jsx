@@ -16,6 +16,8 @@ import BlogDetails from "./components/BlogRoutes/BlogDetails/BlogDetails.jsx";
 import Blogs from "./components/BlogRoutes/Blogs/Blogs.jsx";
 import Assignments from "./components/AssignmentRoutes/Assignments.jsx";
 import AssignmentDetails from "./components/AssignmentRoutes/AssignmentDetails.jsx";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
+import Dashboard from "./UserDashBoard/DashBoard/DashBoard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
       {
         path: "/assignments/:id",
         element: <AssignmentDetails></AssignmentDetails>,
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <ProtectedRoute>
+            <Dashboard></Dashboard>
+          </ProtectedRoute>
+        ),
       },
     ],
   },
