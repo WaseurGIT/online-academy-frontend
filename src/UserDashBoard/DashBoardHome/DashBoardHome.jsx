@@ -6,16 +6,18 @@ import { FaBook, FaCheckCircle, FaClipboardList } from "react-icons/fa";
 const DashboardHome = () => {
   const { user } = useContext(AuthContext);
   const [totalEnrolled, setTotalEnrolled] = useState(0);
+  const [completedCourses, setCompletedCourses] = useState(0);
 
   useEffect(() => {
     if (!user?.email) return;
 
     axios
       .get(`http://localhost:5000/my-courses?email=${user.email}`)
-      .then((res) => {
-        setTotalEnrolled(res.data?.length || 0);
-      })
-      .catch((err) => console.error(err));
+      .then((res) => setTotalEnrolled(res.data?.length || 0));
+
+    axios
+      .get(`http://localhost:5000/completed-courses?email=${user.email}`)
+      .then((res) => setCompletedCourses(res.data?.completedCount || 0));
   }, [user?.email]);
 
   return (
@@ -28,22 +30,22 @@ const DashboardHome = () => {
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {/* Enrolled Courses */}
-        <div className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-2xl p-6 shadow-lg flex flex-col items-center justify-center">
+        {/* Enrolled */}
+        <div className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-2xl p-6 shadow-lg flex flex-col items-center">
           <FaBook className="text-4xl mb-3" />
           <h2 className="text-xl font-semibold">Enrolled Courses</h2>
           <p className="text-4xl font-bold">{totalEnrolled}</p>
         </div>
 
-        {/* Completed Courses */}
-        <div className="bg-gradient-to-r from-green-400 to-teal-500 text-white rounded-2xl p-6 shadow-lg flex flex-col items-center justify-center">
+        {/* Completed */}
+        <div className="bg-gradient-to-r from-green-400 to-teal-500 text-white rounded-2xl p-6 shadow-lg flex flex-col items-center">
           <FaCheckCircle className="text-4xl mb-3" />
           <h2 className="text-xl font-semibold">Courses Completed</h2>
-          <p className="text-4xl font-bold">3</p>
+          <p className="text-4xl font-bold">{completedCourses}</p>
         </div>
 
-        {/* Assignments Submitted */}
-        <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-2xl p-6 shadow-lg flex flex-col items-center justify-center">
+        {/* Assignments */}
+        <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-2xl p-6 shadow-lg flex flex-col items-center">
           <FaClipboardList className="text-4xl mb-3" />
           <h2 className="text-xl font-semibold">Assignments Submitted</h2>
           <p className="text-4xl font-bold">7</p>

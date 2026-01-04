@@ -1,31 +1,40 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
+import axios from "axios";
 
 const MyCourses = () => {
   const { user } = useContext(AuthContext);
-  const [enrollments, setEnrollments] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const fetchCourses = () => {
     if (!user?.email) return;
-
     setLoading(true);
     axios
       .get(`http://localhost:5000/my-courses?email=${user.email}`)
-      .then((res) => {
-        console.log("MyCourses API response:", res.data);
-        console.log("Number of courses:", res.data.length);
-        setCourses(res.data || []);
-      })
-      .catch((error) => {
-        console.error("Error fetching courses:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .then((res) => setCourses(res.data || []))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchCourses();
   }, [user?.email]);
+
+  const handleComplete = async (course) => {
+    try {
+      await axios.patch("http://localhost:5000/enrollments/complete", {
+        userEmail: user.email,
+        courseId: course.course_id,
+      });
+      
+      // refresh data
+      fetchCourses();
+      alert("Marked as completed!");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to mark complete.");
+    }
+  };
 
   return (
     <div className="mt-8">
@@ -46,6 +55,18 @@ const MyCourses = () => {
               />
               <h3 className="font-semibold mt-3 text-lg">{c.course_name}</h3>
               <p className="text-gray-600">${c.course_price}</p>
+
+              <button
+                className={`mt-3 w-full py-2 ${
+                  c.completed
+                    ? "bg-green-400 text-white cursor-not-allowed"
+                    : "bg-blue-600 text-white hover:bg-blue-700"
+                } rounded-lg font-semibold transition`}
+                disabled={c.completed}
+                onClick={() => handleComplete(c)}
+              >
+                {c.completed ? "Completed" : "Mark as Completed"}
+              </button>
             </div>
           ))}
         </div>
