@@ -14,6 +14,8 @@ import AuthProvider from "./context/AuthProvider.jsx";
 import CourseDetails from "./components/CourseRoutes/CourseDetails/CourseDetails.jsx";
 import BlogDetails from "./components/BlogRoutes/BlogDetails/BlogDetails.jsx";
 import Blogs from "./components/BlogRoutes/Blogs/Blogs.jsx";
+import Assignments from "./components/AssignmentRoutes/Assignments.jsx";
+import AssignmentDetails from "./components/AssignmentRoutes/AssignmentDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -50,12 +52,20 @@ const router = createBrowserRouter([
         element: <CourseDetails></CourseDetails>,
       },
       {
-        path: '/blogs',
-        element: <Blogs></Blogs>
+        path: "/blogs",
+        element: <Blogs></Blogs>,
       },
       {
         path: "/blogs/:id",
         element: <BlogDetails></BlogDetails>,
+      },
+      {
+        path: "/assignments",
+        element: <Assignments></Assignments>,
+      },
+      {
+        path: "/assignments/:id",
+        element: <AssignmentDetails></AssignmentDetails>,
       },
     ],
   },
