@@ -56,7 +56,7 @@ const AssignmentDetails = () => {
             Back to Assignments
           </Link>
           <Link
-            to="/assignments"
+            to="/assignments/submit/:id"
             className="inline-block bg-gradient-to-r  text-blue-500 border-2 border-blue-500 py-2 px-6 rounded-full font-semibold shadow-lg hover:shadow-xl hover:scale-105 transform transition duration-300 ml-5"
           >
             Submit Assignments

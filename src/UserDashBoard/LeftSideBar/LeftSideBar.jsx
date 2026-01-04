@@ -25,13 +25,9 @@ const LeftSideBar = () => {
       </div>
 
       <div
-        className={`${
-          open ? "block" : "hidden"
-        } sm:block w-56 p-6 space-y-3`}
+        className={`${open ? "block" : "hidden"} sm:block w-56 p-6 space-y-3`}
       >
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Dashboard
-        </h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Dashboard</h2>
         {menuItems.map((item) => (
           <NavLink
             key={item.path}

@@ -7,6 +7,7 @@ const DashboardHome = () => {
   const { user } = useContext(AuthContext);
   const [totalEnrolled, setTotalEnrolled] = useState(0);
   const [completedCourses, setCompletedCourses] = useState(0);
+  const [submittedAssignments, setSubmittedAssignments] = useState(0);
 
   useEffect(() => {
     if (!user?.email) return;
@@ -18,6 +19,13 @@ const DashboardHome = () => {
     axios
       .get(`http://localhost:5000/completed-courses?email=${user.email}`)
       .then((res) => setCompletedCourses(res.data?.completedCount || 0));
+
+    axios
+      .get(`http://localhost:5000/submitted-assignments?email=${user.email}`)
+      .then((res) => setSubmittedAssignments(res.data?.submittedCount || 0))
+      .catch((err) => {
+        console.error("Error loading submitted assignments:", err);
+      });
   }, [user?.email]);
 
   return (
@@ -44,11 +52,11 @@ const DashboardHome = () => {
           <p className="text-4xl font-bold">{completedCourses}</p>
         </div>
 
-        {/* Assignments */}
+        {/* Assignments Submitted */}
         <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-2xl p-6 shadow-lg flex flex-col items-center">
           <FaClipboardList className="text-4xl mb-3" />
           <h2 className="text-xl font-semibold">Assignments Submitted</h2>
-          <p className="text-4xl font-bold">7</p>
+          <p className="text-4xl font-bold">{submittedAssignments}</p>
         </div>
       </div>
     </div>

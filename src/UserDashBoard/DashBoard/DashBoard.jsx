@@ -28,7 +28,10 @@ const Dashboard = () => {
         </div>
 
         <nav className="p-4 space-y-3">
-          <Link to="/dashboard" className="block px-4 py-2 rounded-lg hover:bg-blue-50">
+          <Link
+            to="/dashboard"
+            className="block px-4 py-2 rounded-lg hover:bg-blue-50"
+          >
             Home
           </Link>
           <Link
@@ -37,12 +40,18 @@ const Dashboard = () => {
           >
             My Courses
           </Link>
+          <Link
+            to="/dashboard/submissions"
+            className="block px-4 py-2 rounded-lg hover:bg-blue-50"
+          >
+            My Submissions
+          </Link>
         </nav>
       </aside>
 
       {/* Main content */}
       <main className="flex-1 p-6 md:p-10">
-        <Outlet />   {/* 🔥 THIS WAS MISSING */}
+        <Outlet /> {/* 🔥 THIS WAS MISSING */}
       </main>
     </div>
   );

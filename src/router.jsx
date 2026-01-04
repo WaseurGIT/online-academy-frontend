@@ -17,6 +17,8 @@ import CourseDetails from "./components/CourseRoutes/CourseDetails/CourseDetails
 import Dashboard from "./UserDashBoard/DashBoard/DashBoard";
 import DashboardHome from "./UserDashBoard/DashBoardHome/DashBoardHome";
 import MyCourses from "./UserDashBoard/MyCourses/MyCourses";
+import AssignmentSubmit from "./components/AssignmentRoutes/AssignmentSubmit";
+import MySubmissions from "./UserDashBoard/MySubmissions/MySubmissions";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,7 @@ const router = createBrowserRouter([
       { path: "assignments", element: <Assignments /> },
       { path: "assignments/:id", element: <AssignmentDetails /> },
       { path: "login", element: <Login /> },
+      { path: "/assignments/submit/:id", element: <AssignmentSubmit /> },
       { path: "register", element: <Register /> },
 
       {
@@ -51,6 +54,10 @@ const router = createBrowserRouter([
           {
             path: "myCourses",
             element: <MyCourses />,
+          },
+          {
+            path: "/dashboard/submissions",
+            element: <MySubmissions />,
           },
         ],
       },
