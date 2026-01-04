@@ -22,6 +22,7 @@ const Login = () => {
       const res = await loginUser(email, password);
 
       const userData = {
+        name: res.user.displayName || "",  
         email: res.user.email,
         password: res.user.password,
         uid: res.user.uid,
@@ -55,6 +56,7 @@ const Login = () => {
       const res = await googleLoginUser();
 
       const userData = {
+        name: res.user.displayName || "",  
         email: res.user.email,
         password: res.user.password,
         uid: res.user.uid,

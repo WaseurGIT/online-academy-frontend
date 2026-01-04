@@ -47,13 +47,16 @@ const Course = ({ course }) => {
         </div>
 
         {/* Button */}
-        <Link className="w-full px-30 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2.5 font-medium hover:opacity-90 transition">
+        <Link
+          to={`/course/${course.course_id}`}
+          className="w-full px-30 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2.5 font-medium hover:opacity-90 transition cursor-pointer"
+        >
           View Details
         </Link>
       </div>
 
       {/* Glow Effect */}
-      <div className="absolute inset-0 rounded-3xl ring-1 ring-transparent group-hover:ring-blue-300 transition"></div>
+      <div className="absolute inset-0 rounded-3xl ring-1 ring-transparent group-hover:ring-blue-300 transition pointer-events-none"></div>
     </div>
   );
 };
