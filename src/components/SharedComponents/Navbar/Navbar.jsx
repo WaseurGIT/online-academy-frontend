@@ -14,12 +14,8 @@ const Navbar = () => {
     { name: "Courses", path: "/courses" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
-    ...(user
-      ? [
-          { name: "Assignments", path: "/assignments" },
-          { name: "Submissions", path: "/submissions" },
-        ]
-      : []),
+    { name: "Blogs", path: "/blogs" },
+    ...(user ? [{ name: "Assignments", path: "/assignments" }] : []),
   ];
 
   const handleLogout = () => {
@@ -44,7 +40,6 @@ const Navbar = () => {
     <nav className="bg-white shadow-md fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-
           {/* Logo */}
           <Link
             to="/"

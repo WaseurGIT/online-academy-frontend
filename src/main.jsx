@@ -12,6 +12,8 @@ import Login from "./auth/Login/Login.jsx";
 import Register from "./auth/Register/Register.jsx";
 import AuthProvider from "./context/AuthProvider.jsx";
 import CourseDetails from "./components/CourseRoutes/CourseDetails/CourseDetails.jsx";
+import BlogDetails from "./components/BlogRoutes/BlogDetails/BlogDetails.jsx";
+import Blogs from "./components/BlogRoutes/Blogs/Blogs.jsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
       {
         path: "/course/:id",
         element: <CourseDetails></CourseDetails>,
+      },
+      {
+        path: '/blogs',
+        element: <Blogs></Blogs>
+      },
+      {
+        path: "/blogs/:id",
+        element: <BlogDetails></BlogDetails>,
       },
     ],
   },

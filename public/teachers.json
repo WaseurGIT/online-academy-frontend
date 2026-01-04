@@ -1,0 +1,23 @@
+[
+  {
+    "id": "T-101",
+    "name": "Alice Johnson",
+    "image": "https://randomuser.me/api/portraits/women/44.jpg",
+    "speech": "Teaching is not just about knowledge, it’s about inspiring curiosity.",
+    "education": "MSc in Computer Science"
+  },
+  {
+    "id": "T-102",
+    "name": "Michael Smith",
+    "image": "https://randomuser.me/api/portraits/men/46.jpg",
+    "speech": "The best way to learn is by building real-world projects.",
+    "education": "PhD in Artificial Intelligence"
+  },
+  {
+    "id": "T-103",
+    "name": "Linda Martinez",
+    "image": "https://randomuser.me/api/portraits/women/68.jpg",
+    "speech": "Empowering students with skills for the future is my passion.",
+    "education": "MEd in Educational Technology"
+  }
+]
