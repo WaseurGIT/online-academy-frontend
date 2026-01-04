@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Course = ({ course }) => {
-  const { course_name, course_image, course_price, stacks } = course;
+  const { course_id, course_name, course_image, course_price, stacks } = course;
 
   return (
     <div className="group relative bg-white/70 backdrop-blur-lg border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
@@ -48,8 +48,10 @@ const Course = ({ course }) => {
 
         {/* Button */}
         <Link
-          to={`/course/${course.course_id}`}
-          className="w-full px-30 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2.5 font-medium hover:opacity-90 transition cursor-pointer"
+          to={`/course/${course_id}`}
+          className="w-full inline-block text-center rounded-md
+             bg-gradient-to-r from-blue-600 to-indigo-600
+             text-white py-2.5 font-medium hover:opacity-90 transition"
         >
           View Details
         </Link>

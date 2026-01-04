@@ -7,7 +7,7 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    axios.get("/course_data.json").then((res) => {
+    axios.get("http://localhost:5000/courses").then((res) => {
       setCourses(res.data);
     });
   }, []);
@@ -17,14 +17,16 @@ const Courses = () => {
       <SectionTitle title="Courses" />
 
       <div className="max-w-7xl mx-auto px-6">
-        <div className="
+        <div
+          className="
           grid 
           grid-cols-1 
           sm:grid-cols-2 
           lg:grid-cols-3 
           xl:grid-cols-3 
           gap-8
-        ">
+        "
+        >
           {courses.map((course) => (
             <Course key={course.course_id} course={course} />
           ))}

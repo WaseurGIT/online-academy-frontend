@@ -7,10 +7,14 @@ const CourseDetails = () => {
   const [course, setCourse] = useState(null);
 
   useEffect(() => {
-    axios.get("/course_data.json").then((res) => {
-      const found = res.data.find((c) => String(c.course_id) === id);
-      setCourse(found);
-    });
+    axios
+      .get(`http://localhost:5000/courses/${id}`)
+      .then((res) => {
+        setCourse(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching course:", error);
+      });
   }, [id]);
 
   if (!course) {
