@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
 import Swal from "sweetalert2";
+import axiosSecure from "../../../axios/AxiosSecure";
 
 const CourseDetails = () => {
   const { user } = useContext(AuthContext);
@@ -10,7 +10,7 @@ const CourseDetails = () => {
   const [course, setCourse] = useState(null);
 
   useEffect(() => {
-    axios
+    axiosSecure
       .get(`http://localhost:5000/courses/${id}`)
       .then((res) => {
         setCourse(res.data);
@@ -46,7 +46,7 @@ const CourseDetails = () => {
         courseId: course.course_id,
       };
 
-      const response = await axios.post(
+      const response = await axiosSecure.post(
         "http://localhost:5000/enrollments",
         enrollData
       );

@@ -1,13 +1,16 @@
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import SectionTitle from "../../SectionTitle/SectionTitle";
 import Blog from "../Blog/Blog";
+import axiosSecure from "../../../axios/AxiosSecure";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/blogs").then((res) => setBlogs(res.data));
+    axiosSecure
+      .get("http://localhost:5000/blogs")
+      .then((res) => setBlogs(res.data));
   }, []);
 
   return (

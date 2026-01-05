@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import SectionTitle from "../SectionTitle/SectionTitle";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const Teachers = () => {
   const [teachers, setTeachers] = useState([]);
 
   useEffect(() => {
     // Using local JSON for demo
-    axios.get("/teachers.json").then((res) => {
+    axiosSecure.get("/teachers.json").then((res) => {
       setTeachers(res.data);
     });
   }, []);

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
-import axios from "axios";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const MySubmissions = () => {
   const { user } = useContext(AuthContext);
@@ -11,7 +11,7 @@ const MySubmissions = () => {
     if (!user?.email) return;
 
     setLoading(true);
-    axios
+    axiosSecure
       .get(
         `http://localhost:5000/assignment-submissions/by-student?email=${user.email}`
       )
@@ -65,7 +65,6 @@ const MySubmissions = () => {
                   No file URL provided.
                 </p>
               )}
-
             </div>
           ))}
         </div>

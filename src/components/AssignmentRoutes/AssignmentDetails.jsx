@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const AssignmentDetails = () => {
   const { id } = useParams(); // id = assignment_id (like "A-101")
   const [assignment, setAssignment] = useState(null);
 
   useEffect(() => {
-    axios
+    axiosSecure
       .get(`http://localhost:5000/assignments/${id}`)
       .then((res) => setAssignment(res.data))
       .catch((err) => console.error("Error fetching assignment:", err));

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import axiosSecure from "../../../axios/AxiosSecure";
+
 
 const BlogDetails = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
-    axios
+    axiosSecure
       .get(`http://localhost:5000/blogs/${id}`)
       .then((res) => setBlog(res.data))
       .catch((err) => console.error("Error fetching blog:", err));

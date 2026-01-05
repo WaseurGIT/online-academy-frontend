@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import SectionTitle from "../../SectionTitle/SectionTitle";
-import axios from "axios";
+
 import Course from "../Course/Course";
+import axiosSecure from "../../../axios/AxiosSecure";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/courses").then((res) => {
+    axiosSecure.get("http://localhost:5000/courses").then((res) => {
       setCourses(res.data);
     });
   }, []);

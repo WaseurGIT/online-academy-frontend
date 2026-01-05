@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
-import axios from "axios";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const MyCourses = () => {
   const { user } = useContext(AuthContext);
@@ -10,7 +10,7 @@ const MyCourses = () => {
   const fetchCourses = () => {
     if (!user?.email) return;
     setLoading(true);
-    axios
+    axiosSecure
       .get(`http://localhost:5000/my-courses?email=${user.email}`)
       .then((res) => setCourses(res.data || []))
       .finally(() => setLoading(false));
@@ -22,11 +22,11 @@ const MyCourses = () => {
 
   const handleComplete = async (course) => {
     try {
-      await axios.patch("http://localhost:5000/enrollments/complete", {
+      await axiosSecure.patch("http://localhost:5000/enrollments/complete", {
         userEmail: user.email,
         courseId: course.course_id,
       });
-      
+
       // refresh data
       fetchCourses();
       alert("Marked as completed!");
@@ -75,4 +75,4 @@ const MyCourses = () => {
   );
 };
 
-export default MyCourses
+export default MyCourses;

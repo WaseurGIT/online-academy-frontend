@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
-import axios from "axios";
+
 import { FaBook, FaCheckCircle, FaClipboardList } from "react-icons/fa";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const DashboardHome = () => {
   const { user } = useContext(AuthContext);
@@ -12,15 +13,15 @@ const DashboardHome = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    axios
+    axiosSecure
       .get(`http://localhost:5000/my-courses?email=${user.email}`)
       .then((res) => setTotalEnrolled(res.data?.length || 0));
 
-    axios
+    axiosSecure
       .get(`http://localhost:5000/completed-courses?email=${user.email}`)
       .then((res) => setCompletedCourses(res.data?.completedCount || 0));
 
-    axios
+    axiosSecure
       .get(`http://localhost:5000/submitted-assignments?email=${user.email}`)
       .then((res) => setSubmittedAssignments(res.data?.submittedCount || 0))
       .catch((err) => {

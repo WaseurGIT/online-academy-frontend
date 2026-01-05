@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import AssignmentCard from "./AssignmentCard";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const Assignments = () => {
   const [assignments, setAssignments] = useState([]);
 
   useEffect(() => {
-    axios
+    axiosSecure
       .get("http://localhost:5000/assignments")
       .then((res) => setAssignments(res.data))
       .catch((err) => console.error("Error fetching assignments:", err));

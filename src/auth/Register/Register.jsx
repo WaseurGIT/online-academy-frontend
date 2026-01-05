@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -49,7 +49,7 @@ const Register = () => {
         password: password,
       };
 
-      await axios.post("http://localhost:5000/users", userData);
+      await axiosSecure.post("http://localhost:5000/users", userData);
 
       Swal.fire({
         toast: true,

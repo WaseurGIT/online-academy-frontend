@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthProvider";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const AssignmentSubmit = () => {
   const { id } = useParams();
@@ -26,7 +26,10 @@ const AssignmentSubmit = () => {
     setSubmitting(true);
 
     try {
-      await axios.post("http://localhost:5000/assignment-submissions", formData);
+      await axiosSecure.post(
+        "http://localhost:5000/assignment-submissions",
+        formData
+      );
       alert("📨 Assignment submitted successfully!");
       navigate("/assignments");
     } catch (err) {
@@ -42,13 +45,12 @@ const AssignmentSubmit = () => {
       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
           <h2 className="text-2xl font-bold">Submit Assignment</h2>
-          <p className="mt-1 text-sm opacity-90">Assignment ID: <span className="font-semibold">{id}</span></p>
+          <p className="mt-1 text-sm opacity-90">
+            Assignment ID: <span className="font-semibold">{id}</span>
+          </p>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="p-8 space-y-6"
-        >
+        <form onSubmit={handleSubmit} className="p-8 space-y-6">
           {/* Name */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">

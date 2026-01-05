@@ -4,7 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const Login = () => {
   const { loginUser, googleLoginUser } = useContext(AuthContext);
@@ -13,22 +13,30 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
 
     try {
       const res = await loginUser(email, password);
-
       const userData = {
-        name: res.user.displayName || "",  
+        name: res.user.displayName || "",
         email: res.user.email,
-        password: res.user.password,
         uid: res.user.uid,
       };
 
-      await axios.post("http://localhost:5000/users", userData);
+      await axiosSecure.post("http://localhost:5000/users", userData);
+
+      // 🚀 Get JWT from backend
+      const tokenResponse = await axiosSecure.post(
+        "http://localhost:5000/jwt",
+        {
+          email: res.user.email,
+        }
+      );
+
+      const token = tokenResponse.data.token || tokenResponse.data;
+      localStorage.setItem("token", token);
 
       Swal.fire({
         toast: true,
@@ -56,13 +64,23 @@ const Login = () => {
       const res = await googleLoginUser();
 
       const userData = {
-        name: res.user.displayName || "",  
+        name: res.user.displayName || "",
         email: res.user.email,
         password: res.user.password,
         uid: res.user.uid,
       };
 
-      await axios.post("http://localhost:5000/users", userData);
+      await axiosSecure.post("http://localhost:5000/users", userData);
+
+      const tokenResponse = await axiosSecure.post(
+        "http://localhost:5000/jwt",
+        {
+          email: res.user.email,
+        }
+      );
+
+      const token = tokenResponse.data.token || tokenResponse.data;
+      localStorage.setItem("token", token);
 
       Swal.fire({
         toast: true,
