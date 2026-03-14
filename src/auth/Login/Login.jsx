@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import axiosSecure from "../../axios/AxiosSecure";
 
 const Login = () => {
-  const { loginUser, googleLoginUser } = useContext(AuthContext);
+  const { loginUser, googleLoginUser, role } = useContext(AuthContext);
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
 
@@ -25,30 +25,29 @@ const Login = () => {
         uid: res.user.uid,
       };
 
-      await axiosSecure.post("http://localhost:5000/users", userData);
-
-      // 🚀 Get JWT from backend
-      const tokenResponse = await axiosSecure.post(
-        "http://localhost:5000/jwt",
-        {
-          email: res.user.email,
-        }
-      );
+      const tokenResponse = await axiosSecure.post("/jwt", {
+        email: res.user.email,
+      });
 
       const token = tokenResponse.data.token || tokenResponse.data;
-      localStorage.setItem("token", token);
+      localStorage.setItem("access-token", token);
 
+      const userRes = await axiosSecure.get(`/usersRole/${email}`);
       Swal.fire({
         toast: true,
         position: "top-end",
         icon: "success",
-        title: `Welcome ${res.user.displayName}`,
+        title: `Welcome ${res?.user?.name || res.user.displayName}`,
         showConfirmButton: false,
         timer: 2000,
       });
 
       form.reset();
-      navigate("/");
+      if (userRes.data.role === "admin") {
+        navigate("/dashboard/admin");
+      } else {
+        navigate("/dashboard/user");
+      }
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -66,31 +65,31 @@ const Login = () => {
       const userData = {
         name: res.user.displayName || "",
         email: res.user.email,
-        password: res.user.password,
         uid: res.user.uid,
+        role: "user",
       };
+      await axiosSecure.post("/users", userData);
+      // const tokenResponse = await axiosSecure.post("/jwt", {
+      //   email: res.user.email,
+      // });
 
-      await axiosSecure.post("http://localhost:5000/users", userData);
+      // const token = tokenResponse.data.token || tokenResponse.data;
+      // localStorage.setItem("access-token", token);
 
-      const tokenResponse = await axiosSecure.post(
-        "http://localhost:5000/jwt",
-        {
-          email: res.user.email,
-        }
-      );
-
-      const token = tokenResponse.data.token || tokenResponse.data;
-      localStorage.setItem("token", token);
-
+      const userRes = await axiosSecure.get(`/usersRole/${res.user.email}`);
       Swal.fire({
         toast: true,
         position: "top-end",
         icon: "success",
-        title: `Welcome ${res.user.displayName}`,
+        title: `Welcome ${res?.user?.name || res.user.displayName}`,
         showConfirmButton: false,
         timer: 2000,
       });
-      navigate("/");
+      if (role === "admin") {
+        navigate("/dashboard/admin");
+      } else {
+        navigate("/dashboard/user");
+      }
     } catch (error) {
       console.log(error);
       Swal.fire({

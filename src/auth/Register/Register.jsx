@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import axiosSecure from "../../axios/AxiosSecure";
 
@@ -17,11 +16,9 @@ const Register = () => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
-    const photoURL = form.photoURL.value;
     const email = form.email.value;
     const password = form.password.value;
 
-    // Validations
     if (password.length < 6) {
       setError("Password must be at least 6 characters long.");
       return;
@@ -34,22 +31,19 @@ const Register = () => {
 
     try {
       const result = await createUser(email, password);
-      const user = result.user;
-
-      // Update Firebase profile
-      await updateProfile(user, {
-        displayName: name,
-        photoURL: photoURL,
-      });
+      // const user = result.user;
 
       const userData = {
         name: name,
-        photoURL: photoURL,
         email: email,
-        password: password,
+        role: "user",
       };
-
-      await axiosSecure.post("http://localhost:5000/users", userData);
+      await axiosSecure.post("/users", userData);
+      const tokenResponse = await axiosSecure.post("/jwt", {
+        email: result.user.email,
+      });
+      localStorage.setItem("access-token", tokenResponse.data.token);
+      navigate("/dashboard/user");
 
       Swal.fire({
         toast: true,
@@ -61,7 +55,7 @@ const Register = () => {
       });
 
       form.reset();
-      navigate("/");
+      navigate("/dashboard/user");
     } catch (err) {
       console.error(err);
       setError(err.message);
@@ -102,7 +96,6 @@ const Register = () => {
           </h2>
 
           <form onSubmit={handleRegister} className="space-y-4">
-            {/* Name */}
             <div className="relative">
               <input
                 type="text"
@@ -116,20 +109,6 @@ const Register = () => {
               </label>
             </div>
 
-            {/* Photo URL */}
-            <div className="relative">
-              <input
-                type="text"
-                name="photoURL"
-                placeholder="profile.png"
-                className="peer w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
-              />
-              <label className="absolute left-4 -top-2 text-sm text-indigo-600 bg-white px-1 peer-focus:top-0 peer-focus:text-xs transition">
-                Photo URL
-              </label>
-            </div>
-
-            {/* Email */}
             <div className="relative">
               <input
                 type="email"
@@ -143,7 +122,6 @@ const Register = () => {
               </label>
             </div>
 
-            {/* Password */}
             <div className="relative">
               <input
                 type={showPass ? "text" : "password"}
@@ -172,7 +150,6 @@ const Register = () => {
               <h1 className="text-md text-red-500">{error}</h1>
             </div>
 
-            {/* Signup Button */}
             <button
               type="submit"
               className="w-full py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition"

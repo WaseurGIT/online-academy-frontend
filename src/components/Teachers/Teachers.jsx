@@ -6,9 +6,8 @@ const Teachers = () => {
   const [teachers, setTeachers] = useState([]);
 
   useEffect(() => {
-    // Using local JSON for demo
-    axiosSecure.get("/teachers.json").then((res) => {
-      setTeachers(res.data);
+    axiosSecure.get("/teachers").then((res) => {
+      setTeachers(res.data.data);
     });
   }, []);
 
@@ -22,7 +21,6 @@ const Teachers = () => {
             key={teacher.id}
             className="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300"
           >
-            {/* Image */}
             <div className="relative h-60">
               <img
                 src={teacher.image}
@@ -32,13 +30,20 @@ const Teachers = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </div>
 
-            {/* Content */}
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
                 {teacher.name}
               </h2>
-              <p className="text-gray-600 italic mb-3">"{teacher.speech}"</p>
-              <p className="text-gray-500 font-medium">{teacher.education}</p>
+              <p className="text-gray-600 italic mb-3">{teacher.email}</p>
+              <p className="text-gray-500 font-medium">
+                {teacher.educationQualification}
+              </p>
+              <p className="text-gray-500 font-medium">
+                {teacher.graduationInstitute}
+              </p>
+              <p className="text-gray-500 font-medium">
+                {teacher.graduationYear}
+              </p>
             </div>
           </div>
         ))}

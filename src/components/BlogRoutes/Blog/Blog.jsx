@@ -14,7 +14,7 @@ const Blog = ({ blog }) => {
 
   return (
     <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300">
-      {/* Image */}
+
       <div className="relative h-52 overflow-hidden">
         <img
           src={image}
@@ -48,7 +48,6 @@ const Blog = ({ blog }) => {
           <span className="text-gray-400 text-xs">{publishedDate}</span>
         </div>
 
-        {/* Read More Button */}
         <Link
           to={`/blogs/${id}`}
           className="

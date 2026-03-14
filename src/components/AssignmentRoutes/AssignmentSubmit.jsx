@@ -1,12 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import axiosSecure from "../../axios/AxiosSecure";
+import Swal from "sweetalert2";
 
 const AssignmentSubmit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    if (user?.email) {
+      axiosSecure
+        .get(`/users/email/${user.email}`)
+        .then((res) => {
+          setUserInfo(res.data);
+          setFormData((prev) => ({
+            ...prev,
+            studentName: res.data.name,
+            studentEmail: res.data.email,
+          }));
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [user?.email]);
 
   const [formData, setFormData] = useState({
     studentName: user?.displayName || "",
@@ -26,15 +44,12 @@ const AssignmentSubmit = () => {
     setSubmitting(true);
 
     try {
-      await axiosSecure.post(
-        "http://localhost:5000/assignment-submissions",
-        formData
-      );
-      alert("📨 Assignment submitted successfully!");
-      navigate("/assignments");
+      await axiosSecure.post("/assignment-submissions", formData);
+      Swal.fire("Assignment submitted successfully!");
+      navigate("/dashboard/user/mySubmissions");
     } catch (err) {
       console.error(err);
-      alert("❌ Submission failed. Try again.");
+      Swal.fire("Submission failed. Try again.");
     } finally {
       setSubmitting(false);
     }
@@ -42,7 +57,7 @@ const AssignmentSubmit = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="max-w-3xl mt-12 mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
           <h2 className="text-2xl font-bold">Submit Assignment</h2>
           <p className="mt-1 text-sm opacity-90">
@@ -51,7 +66,6 @@ const AssignmentSubmit = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
-          {/* Name */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               Your Name
@@ -59,13 +73,12 @@ const AssignmentSubmit = () => {
             <input
               type="text"
               name="studentName"
-              value={formData.studentName}
+              defaultValue={userInfo?.name}
               disabled
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 bg-gray-50"
             />
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               Your Email
@@ -73,13 +86,12 @@ const AssignmentSubmit = () => {
             <input
               type="email"
               name="studentEmail"
-              value={formData.studentEmail}
+              defaultValue={userInfo?.email}
               disabled
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 bg-gray-50"
             />
           </div>
 
-          {/* Optional File URL */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               File URL (optional)
@@ -94,7 +106,6 @@ const AssignmentSubmit = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={submitting}

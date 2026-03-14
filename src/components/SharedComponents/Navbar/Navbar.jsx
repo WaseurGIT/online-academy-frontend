@@ -1,31 +1,51 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
-  const { user, logOutUser } = useContext(AuthContext);
+  const { user, logOutUser, role } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const menuRef = useRef();
+  const navigate = useNavigate();
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Courses", path: "/courses" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
     { name: "Blogs", path: "/blogs" },
-    ...(user ? [{ name: "Assignments", path: "/assignments" }] : []),
+    ...(user && role === "user"
+      ? [
+          { name: "Assignments", path: "/assignments" },
+          { name: "Dashboard", path: "/dashboard/user" },
+        ]
+      : []),
+    ...(user && role === "admin"
+      ? [{ name: "Dashboard", path: "/dashboard/admin" }]
+      : []),
   ];
 
-  const handleLogout = () => {
-    logOutUser()
-      .then(() => {})
-      .catch((err) => console.error(err));
-    setShowProfileMenu(false);
+  const handleLogout = async () => {
+    try {
+      await logOutUser();
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Logged out successfully",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      navigate("/");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.message,
+      });
+    }
   };
 
-  // CLOSE DROPDOWN ON CLICK OUTSIDE
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -62,7 +82,6 @@ const Navbar = () => {
 
             {user ? (
               <>
-                {/* Avatar + Dropdown Trigger */}
                 <div ref={menuRef} className="relative">
                   <img
                     src={user.photoURL}
@@ -74,13 +93,6 @@ const Navbar = () => {
 
                   {showProfileMenu && (
                     <div className="absolute right-0 mt-2 w-36 bg-white border rounded-lg shadow-lg z-50">
-                      <Link
-                        to="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100"
-                        onClick={() => setShowProfileMenu(false)}
-                      >
-                        My Dashboard
-                      </Link>
                       <button
                         onClick={handleLogout}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-100"
@@ -127,13 +139,6 @@ const Navbar = () => {
 
             {user ? (
               <>
-                <Link
-                  to="/dashboard"
-                  className="text-gray-700 hover:text-blue-600"
-                  onClick={() => setIsOpen(false)}
-                >
-                  My Dashboard
-                </Link>
                 <button
                   onClick={() => {
                     handleLogout();
