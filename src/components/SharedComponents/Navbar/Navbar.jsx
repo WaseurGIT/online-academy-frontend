@@ -1,8 +1,9 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
 import Swal from "sweetalert2";
+import logo from '../../../../public/logo.png'
 
 const Navbar = () => {
   const { user, logOutUser, role } = useContext(AuthContext);
@@ -63,10 +64,12 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold text-blue-600 pacifico-regular"
+            className="text-2xl flex items-center gap-2 font-bold text-blue-600 pacifico-regular"
           >
-            EduLogo
+            <img src={logo} alt="Logo" className="h-10 w-10" />
+            <h1>Online Academy</h1>
           </Link>
+          
 
           {/* Desktop Links */}
           <div className="hidden md:flex space-x-8 items-center">

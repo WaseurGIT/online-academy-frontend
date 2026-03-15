@@ -37,7 +37,7 @@ const Login = () => {
         toast: true,
         position: "top-end",
         icon: "success",
-        title: `Welcome ${res?.user?.name || res.user.displayName}`,
+        title: `Welcome ${res?.user?.displayName || res.user.email.split("@")[0]}`,
         showConfirmButton: false,
         timer: 2000,
       });
@@ -81,7 +81,7 @@ const Login = () => {
         toast: true,
         position: "top-end",
         icon: "success",
-        title: `Welcome ${res?.user?.name || res.user.displayName}`,
+        title: `Welcome ${res?.user?.displayName || res?.user?.email.split("@")[0]}`,
         showConfirmButton: false,
         timer: 2000,
       });

@@ -94,6 +94,17 @@ const UserSidebar = ({ onClose }) => {
             Home
           </span>
         </Link>
+        
+        <Link
+          to="/addBlogs"
+          onClick={onClose}
+          className="flex items-center gap-2 md:gap-3 px-2 md:px-3 py-2 md:py-2.5 rounded hover:bg-blue-200 transition"
+        >
+          <AiFillHome className="text-lg md:text-xl text-blue-500 flex-shrink-0" />
+          <span className="text-xs md:text-base text-blue-500 font-medium hover:text-blue-700">
+            Add New Blog
+          </span>
+        </Link>
 
         <Link
           to="/dashboard/user/mySubmissions"
