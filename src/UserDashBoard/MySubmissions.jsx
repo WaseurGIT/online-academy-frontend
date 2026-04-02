@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import axiosSecure from "../axios/AxiosSecure";
+import axiosSecure from "../../axios/axiosSecure";
 import { AuthContext } from "../context/AuthProvider";
 
 const MySubmissions = () => {

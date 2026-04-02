@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
-import axiosSecure from "../axios/AxiosSecure";
+import axiosSecure from "../../axios/axiosSecure";
 import Swal from "sweetalert2";
 import {
   Mail,

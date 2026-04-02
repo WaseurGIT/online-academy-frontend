@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axiosSecure from "../axios/AxiosSecure";
+import axiosSecure from "../../axios/axiosSecure";
 import Swal from "sweetalert2";
 import { Trash2, AlertCircle, Loader2 } from "lucide-react";
 
