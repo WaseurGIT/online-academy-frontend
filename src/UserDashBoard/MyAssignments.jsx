@@ -33,9 +33,7 @@ const MyAssignments = () => {
       const response = await axiosSecure.get(
         `/assignments/byEmail/${user?.email}`,
       );
-      setAssignments(
-        Array.isArray(response.data) ? response.data : response.data.data || [],
-      );
+      setAssignments(response.data || response.data.data || []);
       setError(null);
     } catch (err) {
       console.error("Error fetching assignments:", err);
@@ -114,7 +112,6 @@ const MyAssignments = () => {
   return (
     <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        {/* Header with Add Button */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
@@ -128,7 +125,7 @@ const MyAssignments = () => {
             </p>
           </div>
           <Link
-            to="/add-assignment"
+            to="/addAssignment"
             className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 font-semibold shadow-md whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
@@ -136,7 +133,6 @@ const MyAssignments = () => {
           </Link>
         </div>
 
-        {/* Error Alert */}
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
             <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
@@ -153,7 +149,6 @@ const MyAssignments = () => {
           </div>
         )}
 
-        {/* Empty State */}
         {assignments.length === 0 && !error && (
           <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
             <div className="flex justify-center mb-4">
@@ -161,7 +156,7 @@ const MyAssignments = () => {
             </div>
             <p className="text-gray-500 text-lg mb-4">No assignments yet.</p>
             <Link
-              to="/add-assignment"
+              to="/addAssignment"
               className="inline-flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
               <Plus className="w-4 h-4" />
@@ -170,7 +165,6 @@ const MyAssignments = () => {
           </div>
         )}
 
-        {/* Assignments Grid */}
         {assignments.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {assignments.map((assignment) => {
@@ -181,7 +175,6 @@ const MyAssignments = () => {
                   key={assignment._id}
                   className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 flex flex-col h-full"
                 >
-                  {/* Image Section */}
                   <div className="relative overflow-hidden bg-gradient-to-br from-orange-400 to-orange-600 h-48">
                     {assignment.image ? (
                       <img
@@ -197,7 +190,6 @@ const MyAssignments = () => {
                         <Award className="w-16 h-16 text-white opacity-50" />
                       </div>
                     )}
-                    {/* Deadline Status Badge */}
                     <div
                       className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-semibold ${
                         deadlinePassed
@@ -209,14 +201,11 @@ const MyAssignments = () => {
                     </div>
                   </div>
 
-                  {/* Content Section */}
                   <div className="p-5 flex-grow flex flex-col">
-                    {/* Title */}
                     <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
                       {assignment.assignment_title || "Untitled Assignment"}
                     </h3>
 
-                    {/* Author Info */}
                     <div className="mb-3 text-sm text-gray-600">
                       <p className="font-medium">
                         By: {assignment.author || "Unknown"}
@@ -226,14 +215,12 @@ const MyAssignments = () => {
                       </p>
                     </div>
 
-                    {/* Description */}
                     {assignment.description && (
                       <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                         {assignment.description}
                       </p>
                     )}
 
-                    {/* Marks Info */}
                     {assignment.marks && (
                       <div className="mb-3 p-3 bg-orange-50 rounded-lg border border-orange-200 flex items-center gap-2">
                         <Award className="w-5 h-5 text-orange-600" />
@@ -246,7 +233,6 @@ const MyAssignments = () => {
                       </div>
                     )}
 
-                    {/* Deadline Info */}
                     {assignment.deadline && (
                       <div
                         className={`mb-4 p-3 rounded-lg border flex items-center gap-2 ${
@@ -283,7 +269,6 @@ const MyAssignments = () => {
                       </div>
                     )}
 
-                    {/* Delete Button */}
                     <button
                       onClick={() =>
                         handleDeleteAssignment(

@@ -8,10 +8,33 @@ import { useNavigate } from "react-router-dom";
 const AddAssignment = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [formData, setFormData] = useState({
+    assignment_title: "",
+    author: "",
+    email: "",
+    description: "",
+    marks: "",
+    deadline: "",
+    image: "",
+  });
+
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prev) => ({
+          ...prev,
+          image: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   useEffect(() => {
     if (user?.email) {
@@ -25,24 +48,6 @@ const AddAssignment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const form = e.target;
-    const assignment_title = form.assignment_title.value;
-    const author = form.author.value;
-    const email = form.email.value;
-    const description = form.description.value;
-    const marks = form.marks.value;
-    const deadline = form.deadline.value;
-    const image = form.image.value;
-    const formData = {
-      assignment_title,
-      author,
-      email,
-      description,
-      marks,
-      deadline,
-      image,
-    };
-
     try {
       setLoading(true);
 
@@ -50,9 +55,16 @@ const AddAssignment = () => {
 
       if (response.data.success || response.status === 201) {
         Swal.fire("Success!", "Assignment created successfully", "success");
-        form.reset();
+        setFormData({
+          assignment_title: "",
+          author: "",
+          email: "",
+          description: "",
+          marks: "",
+          deadline: "",
+          image: "",
+        });
         navigate("/assignments");
-        setImagePreview(null);
       }
     } catch (error) {
       console.error("Error creating assignment:", error);
@@ -91,6 +103,10 @@ const AddAssignment = () => {
               <input
                 type="text"
                 name="assignment_title"
+                value={formData.assignment_title}
+                onChange={(e) =>
+                  setFormData({ ...formData, assignment_title: e.target.value })
+                }
                 placeholder="Enter assignment title"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
@@ -131,6 +147,10 @@ const AddAssignment = () => {
               <textarea
                 type="text"
                 name="description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
                 placeholder="Describe the assignment requirements and details..."
                 rows="4"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
@@ -145,6 +165,10 @@ const AddAssignment = () => {
                 <input
                   type="number"
                   name="marks"
+                  value={formData.marks}
+                  onChange={(e) =>
+                    setFormData({ ...formData, marks: e.target.value })
+                  }
                   placeholder="Enter total marks"
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                 />
@@ -157,50 +181,27 @@ const AddAssignment = () => {
                 <input
                   type="datetime-local"
                   name="deadline"
+                  value={formData.deadline}
+                  onChange={(e) =>
+                    setFormData({ ...formData, deadline: e.target.value })
+                  }
+                  placeholder="Select deadline"
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Assignment Image
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Assignment Image <span className="text-red-500">*</span>
               </label>
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <label className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-blue-300 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                    <div className="flex items-center gap-2">
-                      <Upload className="w-5 h-5 text-blue-600" />
-                      <span className="text-sm font-medium text-gray-700">
-                        Click to upload or paste URL
-                      </span>
-                    </div>
-                    <input type="file" accept="image/*" className="hidden" />
-                  </label>
-                </div>
-
-                {imagePreview && (
-                  <div className="flex-shrink-0">
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      className="w-24 h-24 object-cover rounded-lg border-2 border-blue-300"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Or enter image URL
-                </label>
-                <input
-                  type="url"
-                  name="image"
-                  placeholder="https://example.com/image.jpg"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                />
-              </div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none transition"
+              />
             </div>
 
             <div className="pt-6 border-t">
