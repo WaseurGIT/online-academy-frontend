@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
-import axiosSecure from "../../axios/axiosSecure";
 import Swal from "sweetalert2";
 import {
   Mail,
@@ -13,6 +12,7 @@ import {
   Trash2,
   Calendar as CalendarIcon,
 } from "lucide-react";
+import axiosSecure from "../axios/AxiosSecure";
 
 const UserProfile = () => {
   const { user, role, loading } = useContext(AuthContext);
@@ -33,7 +33,6 @@ const UserProfile = () => {
         .then((res) => setUserInfo(res.data))
         .catch((err) => console.error(err));
 
-      // Fetch user's blogs
       setBlogsLoading(true);
       axiosSecure
         .get(`/blogs/email/${user.email}`)

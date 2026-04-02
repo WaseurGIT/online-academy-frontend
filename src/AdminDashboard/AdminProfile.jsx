@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import axiosSecure from "../../axios/axiosSecure";
 import {
   Users,
   BookOpen,
@@ -12,6 +11,7 @@ import {
 } from "lucide-react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthProvider";
+import axiosSecure from "../axios/AxiosSecure";
 
 const AdminProfile = () => {
   const { user, loading } = useContext(AuthContext);

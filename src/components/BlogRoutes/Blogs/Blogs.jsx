@@ -45,7 +45,6 @@ const Blogs = () => {
 
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - Categories */}
           <div className="lg:col-span-1">
             <div className="sticky top-20 bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-bold text-gray-800 mb-4">
@@ -69,7 +68,6 @@ const Blogs = () => {
             </div>
           </div>
 
-          {/* Right Side - Blogs */}
           <div className="lg:col-span-3">
             <div className="space-y-6">
               {blogs.length > 0 ? (

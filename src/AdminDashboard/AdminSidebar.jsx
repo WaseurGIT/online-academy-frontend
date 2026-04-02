@@ -6,7 +6,7 @@ import { MdMiscellaneousServices, MdNoteAlt } from "react-icons/md";
 import { FaCar, FaUsers } from "react-icons/fa";
 import { CiUser } from "react-icons/ci";
 import { AuthContext } from "../context/AuthProvider";
-import axiosSecure from "../../axios/axiosSecure";
+import axiosSecure from "../axios/AxiosSecure";
 
 const AdminSidebar = ({ onClose }) => {
   const { user } = useContext(AuthContext);

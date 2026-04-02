@@ -41,7 +41,6 @@ const Banner = () => {
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      {/* Slides */}
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -55,10 +54,8 @@ const Banner = () => {
             className="w-full h-full object-cover"
           />
 
-          {/* Overlay */}
           <div className="absolute inset-0 bg-black/50"></div>
 
-          {/* Text */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6">
             <h1 className="text-4xl md:text-6xl font-bold pacifico-regular">{slide.title}</h1>
             <p className="mt-4 text-lg md:text-xl text-gray-200">
@@ -68,7 +65,6 @@ const Banner = () => {
         </div>
       ))}
 
-      {/* Left Arrow */}
       <button
         onClick={prevSlide}
         className="absolute left-5 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 p-3 rounded-full text-white"
@@ -76,7 +72,6 @@ const Banner = () => {
         <ChevronLeft size={28} />
       </button>
 
-      {/* Right Arrow */}
       <button
         onClick={nextSlide}
         className="absolute right-5 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 p-3 rounded-full text-white"
@@ -84,7 +79,6 @@ const Banner = () => {
         <ChevronRight size={28} />
       </button>
 
-      {/* Dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
         {slides.map((_, index) => (
           <button

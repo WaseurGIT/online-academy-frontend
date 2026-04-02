@@ -6,7 +6,6 @@ const AssignmentCard = ({ assignment }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-      {/* Image */}
       <div className="relative h-40 overflow-hidden">
         <img
           src={image}
@@ -15,7 +14,6 @@ const AssignmentCard = ({ assignment }) => {
         />
       </div>
 
-      {/* Content */}
       <div className="p-5 flex flex-col flex-1">
         <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
           {assignment_title}

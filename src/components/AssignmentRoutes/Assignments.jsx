@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import AssignmentCard from "./AssignmentCard";
 import axiosSecure from "../../axios/AxiosSecure";
-
 const Assignments = () => {
   const [assignments, setAssignments] = useState([]);
 

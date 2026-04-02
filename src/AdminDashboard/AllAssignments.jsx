@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axiosSecure from "../../axios/axiosSecure";
 import Swal from "sweetalert2";
 import {
   Trash2,
@@ -11,6 +10,7 @@ import {
   Clock,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import axiosSecure from "../axios/AxiosSecure";
 
 const AllAssignments = () => {
   const [assignments, setAssignments] = useState([]);

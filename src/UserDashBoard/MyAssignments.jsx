@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import axiosSecure from "../../axios/axiosSecure";
 import Swal from "sweetalert2";
 import {
   Trash2,
@@ -13,6 +12,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
+import axiosSecure from "../axios/axiosSecure";
 
 const MyAssignments = () => {
   const { user } = useContext(AuthContext);

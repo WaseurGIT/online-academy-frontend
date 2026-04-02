@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import axiosSecure from "../../axios/axiosSecure";
+
 import { AuthContext } from "../context/AuthProvider";
+import axiosSecure from "../axios/AxiosSecure";
 
 const MySubmissions = () => {
   const { user } = useContext(AuthContext);
@@ -12,7 +13,7 @@ const MySubmissions = () => {
     // setLoading(true);
     axiosSecure
       .get(
-        `http://localhost:5000/assignment-submissions/by-student?email=${user.email}`
+        `http://localhost:5000/assignment-submissions/by-student?email=${user.email}`,
       )
       .then((res) => {
         setSubmissions(res.data.data || []);

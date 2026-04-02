@@ -5,9 +5,7 @@ const About = () => {
   return (
     <div className="bg-gray-50 pt-20">
 
-      {/* About Content */}
       <section className="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        {/* Image */}
         <div className="relative">
           <img src="/about.png" alt="About" className="rounded-3xl shadow-xl" />
           <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white px-6 py-4 rounded-2xl shadow-lg">
@@ -16,7 +14,6 @@ const About = () => {
           </div>
         </div>
 
-        {/* Text */}
         <div>
           <SectionTitle
             title="Who We Are"
@@ -37,7 +34,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Stats */}
       <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {[
@@ -57,7 +53,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Mission & Vision */}
       <section className="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="bg-white rounded-3xl p-8 shadow-md hover:shadow-xl transition">
           <h3 className="text-2xl font-bold text-gray-800 mb-4">Our Mission</h3>

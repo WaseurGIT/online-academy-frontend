@@ -61,7 +61,6 @@ const Navbar = () => {
     <nav className="bg-white shadow-md fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <Link
             to="/"
             className="text-2xl flex items-center gap-2 font-bold text-blue-600 pacifico-regular"

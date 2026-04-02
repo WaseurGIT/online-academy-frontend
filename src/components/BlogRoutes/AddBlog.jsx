@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import axiosSecure from "../../axios/AxiosSecure";
 import Swal from "sweetalert2";
 import { Upload, AlertCircle, Loader2, Send } from "lucide-react";
 import { AuthContext } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import axiosSecure from "../../axios/AxiosSecure";
 
 const AddBlog = () => {
   const { user } = useContext(AuthContext);

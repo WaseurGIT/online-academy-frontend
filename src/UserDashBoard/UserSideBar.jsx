@@ -6,7 +6,8 @@ import { MdNoteAlt } from "react-icons/md";
 import { FaCarSide, FaUser } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthProvider";
-import axiosSecure from "../../axios/axiosSecure";
+import axiosSecure from "../axios/AxiosSecure";
+
 
 const UserSidebar = ({ onClose }) => {
   const { user, logOutUser } = useContext(AuthContext);
