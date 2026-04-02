@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import axiosSecure from "../../axios/AxiosSecure";
 
 const Login = () => {
-  const { loginUser, googleLoginUser, role } = useContext(AuthContext);
+  const { loginUser, googleLoginUser, role, setLoading } = useContext(AuthContext);
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
 
@@ -61,41 +61,48 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       const res = await googleLoginUser();
-
+      console.log("Initial");
       const userData = {
-        name: res.user.displayName || "",
+        name: res.user.displayName,
         email: res.user.email,
         uid: res.user.uid,
         role: "user",
       };
-      await axiosSecure.post("/users", userData);
-      // const tokenResponse = await axiosSecure.post("/jwt", {
-      //   email: res.user.email,
-      // });
 
-      // const token = tokenResponse.data.token || tokenResponse.data;
-      // localStorage.setItem("access-token", token);
+      await axiosSecure.post("/users", userData);
+      console.log("Post");
+      const tokenResponse = await axiosSecure.post("/jwt", {
+        email: res.user.email,
+      });
+      localStorage.setItem("access-token", tokenResponse.data.token);
 
       const userRes = await axiosSecure.get(`/usersRole/${res.user.email}`);
+
       Swal.fire({
         toast: true,
         position: "top-end",
         icon: "success",
-        title: `Welcome ${res?.user?.displayName || res?.user?.email.split("@")[0]}`,
+        title: `Welcome ${res.user.displayName}`,
         showConfirmButton: false,
         timer: 2000,
       });
+
       if (role === "admin") {
+        setLoading(false);
         navigate("/dashboard/admin");
       } else {
+        setLoading(false);
         navigate("/dashboard/user");
       }
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      console.log(error);
       Swal.fire({
+        toast: true,
+        position: "top-end",
         icon: "error",
-        title: "Login Failed",
-        text: error.message,
+        title: "Google login failed. Please try again.",
+        showConfirmButton: false,
+        timer: 2000,
       });
     }
   };
