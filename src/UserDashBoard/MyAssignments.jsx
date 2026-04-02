@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
-import axiosSecure from "../axios/axiosSecure";
+import axiosSecure from "../axios/AxiosSecure";
 
 const MyAssignments = () => {
   const { user } = useContext(AuthContext);
